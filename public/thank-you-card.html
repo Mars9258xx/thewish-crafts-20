@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+
+<!-- ============================================================
+     Wish Craft — Thank You Card Page (SAFE TO EDIT)
+     ============================================================
+     Yeh page wish dekhne ke baad recipient ko dikhta hai.
+     
+     Yahan change karoge to kya hoga:
+     - Card templates (5 different designs)
+     - Ready-made thank you notes (5 options)
+     - Background options
+     - Button texts, colors, share messages
+     
+     Mat chhedna:
+     - Share logic (Web Share API + fallbacks)
+     - Canvas download logic (agar add ho)
+     - Main structure of show/hide sections
+     
+     User flow:
+     1. Pehle ready-made card dikhta hai → seedha Share
+     2. "Customize" dabaye to templates + notes + backgrounds dikhte hain
+     3. Edit karke phir share kar sakta hai
+     ============================================================ -->
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1,maximum-scale=1" name="viewport"/>
+<title>Thank You Card — Wish Craft</title>
+<meta content="Send a beautiful personalized thank-you card in seconds with Wish Craft." name="description"/>
+<meta content="index, follow" name="robots"/>
+<link href="https://thewishcrafts.vercel.app/thank-you-card.html" rel="canonical"/>
+<meta content="website" property="og:type"/>
+<meta content="Wish Craft" property="og:site_name"/>
+<meta content="Thank You Card — Wish Craft" property="og:title"/>
+<meta content="Send a beautiful personalized thank-you card in seconds with Wish Craft." property="og:description"/>
+<meta content="https://thewishcrafts.vercel.app/thank-you-card.html" property="og:url"/>
+<meta content="https://thewishcrafts.vercel.app/og-image.jpg" property="og:image"/>
+<meta content="1200" property="og:image:width"/>
+<meta content="630" property="og:image:height"/>
+<meta content="Wish Craft — beautiful digital wishes" property="og:image:alt"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="Thank You Card — Wish Craft" name="twitter:title"/>
+<meta content="Send a beautiful personalized thank-you card in seconds with Wish Craft." name="twitter:description"/>
+<meta content="https://thewishcrafts.vercel.app/og-image.jpg" name="twitter:image"/>
+<meta content="Wish Craft — beautiful digital wishes" name="twitter:image:alt"/>
+<link href="/assets/brand/wishcraft-mark.svg" rel="icon" type="image/svg+xml"/>
+<link href="/site.webmanifest" rel="manifest"/>
+<meta content="#E85B83" name="theme-color"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+
+<link href="/assets/css/site.css" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&amp;family=DM+Sans:wght@400;500;700;800&amp;family=Playfair+Display:wght@600;700&amp;display=swap" rel="stylesheet"/>
+</head>
+<body class="wc-creator-page wc-thank-you-page" data-relation="Thank You">
+<div data-wc-shell-header=""></div>
+<header class="top">
+<a class="brand" href="/">
+<span>✦</span>
+    Wish Craft
+  </a>
+<small>Thank You Card</small>
+</header>
+<main class="wrap" id="main-content">
+<div class="head">
+<div class="ready-badge">✨ Ready to share</div>
+<h1>Send a thank you</h1>
+<p>A beautiful card is already ready for you.<br/>Share it as-is, or customize in seconds.</p>
+</div>
+<!-- Card Preview -->
+<div class="preview-wrap">
+<div class="card" id="card">
+<div class="deco tl">✦</div>
+<div class="deco tr">♡</div>
+<div class="deco bl">♡</div>
+<div class="deco br">✦</div>
+<div class="heart" id="cardHeart">💖</div>
+<div class="label" id="cardLabel">Thank You</div>
+<div class="note" id="cardNote">Thank you for the beautiful wish.<br/>It truly made my day special.</div>
+<div class="from" id="cardFrom">With love ✨</div>
+</div>
+</div>
+<!-- AD SLOT 2: Natural break after the card preview. -->
+<div aria-label="Advertisement" class="ad-wrap ad-mid">
+<div class="ad-label"></div>
+<div class="ad-slot" data-wc-ad="thankYou" id="adMid"></div>
+</div>
+<!-- Primary Actions (always visible) -->
+<div class="actions">
+<button class="btn btn-primary" id="btnShare" type="button">📤 Share card + message</button>
+<button class="btn btn-secondary" id="btnCustomize" type="button">✨ Customize (optional)</button>
+<button class="btn btn-ghost" id="btnCopy" type="button">Copy text only</button>
+</div>
+<!-- Customize Panel (hidden until clicked) -->
+<div class="panel" id="panel">
+<h2>Choose a style</h2>
+<div class="templates" id="templates">
+<!-- filled by JS -->
+</div>
+<h2>Pick a note (or edit below)</h2>
+<div class="notes" id="notes">
+<!-- filled by JS -->
+</div>
+<div class="field">
+<label for="customNote">Your message</label>
+<textarea id="customNote" placeholder="Write your own thank you..."></textarea>
+</div>
+<div class="field">
+<label for="customFrom">From (optional)</label>
+<input id="customFrom" maxlength="40" placeholder="Your name or just leave blank" type="text"/>
+</div>
+<h2>Background</h2>
+<div class="bgs" id="bgs">
+<!-- filled by JS -->
+</div>
+<button class="btn btn-primary" id="btnApply" style="width:100%;margin-top:6px" type="button">Apply &amp; Share</button>
+</div>
+<p class="footer-note">
+    Made with ✦ on <a href="/">Wish Craft</a><br/>
+    Create your own wish for someone special →
+  </p>
+</main>
+<script>
+/* ============================================================
+   Thank You Card Logic (SAFE area for text/templates)
+   ============================================================
+   Templates, notes, backgrounds yahan se change kar sakte ho.
+   Share functions mat todna.
+   ============================================================ */
+
+const TEMPLATES = [
+  { id: "soft",   emoji: "💖", label: "Soft Love",   bg: "linear-gradient(145deg,#FFF7F8,#FAF7FA)", heart: "💖", accent: "#E76F8E" },
+  { id: "warm",   emoji: "🧡", label: "Warm",        bg: "linear-gradient(145deg,#fff5eb,#ffe8d6)", heart: "🧡", accent: "#e67e22" },
+  { id: "sky",    emoji: "💙", label: "Sky",         bg: "linear-gradient(145deg,#eef6ff,#e4edff)", heart: "💙", accent: "#4a7fd4" },
+  { id: "mint",   emoji: "💚", label: "Mint",        bg: "linear-gradient(145deg,#f0faf5,#e5f6ee)", heart: "💚", accent: "#2a9d6a" },
+  { id: "night",  emoji: "✨", label: "Night",       bg: "linear-gradient(145deg,#2b2340,#1a1529)", heart: "✨", accent: "#c4b5fd", dark: true }
+];
+
+const NOTES = [
+  "Thank you for the beautiful wish.\nIt truly made my day special.",
+  "Your message made me smile so much.\nThank you for thinking of me 💖",
+  "I felt so loved reading your wish.\nThank you from the bottom of my heart.",
+  "What a lovely surprise!\nThank you for making my day brighter.",
+  "Thank you for the kind words.\nYou always know how to make me feel special."
+];
+
+const BACKGROUNDS = [
+  { id: "g1", style: "linear-gradient(145deg,#FFF7F8,#FAF7FA)" },
+  { id: "g2", style: "linear-gradient(145deg,#fff5eb,#ffe8d6)" },
+  { id: "g3", style: "linear-gradient(145deg,#eef6ff,#e4edff)" },
+  { id: "g4", style: "linear-gradient(145deg,#f0faf5,#e5f6ee)" },
+  { id: "g5", style: "linear-gradient(145deg,#2b2340,#1a1529)" },
+  { id: "g6", style: "linear-gradient(145deg,#fff0f0,#ffe4ec)" },
+  { id: "g7", style: "linear-gradient(135deg,#fdfbfb,#ebedee)" },
+  { id: "g8", style: "linear-gradient(145deg,#f3e8ff,#e9d5ff)" }
+  // Future: add real images from /images/ folder like:
+  // { id: "img1", style: "url('/images/bg1.webp') center/cover" }
+];
+
+// State
+let currentTemplate = TEMPLATES[0];
+let currentNote = NOTES[0];
+let currentBg = BACKGROUNDS[0].style;
+let currentFrom = "With love ✨";
+
+// DOM
+const card = document.getElementById("card");
+const cardNote = document.getElementById("cardNote");
+const cardFrom = document.getElementById("cardFrom");
+const cardHeart = document.getElementById("cardHeart");
+const cardLabel = document.getElementById("cardLabel");
+const panel = document.getElementById("panel");
+const customNote = document.getElementById("customNote");
+const customFrom = document.getElementById("customFrom");
+
+function renderCard() {
+  card.style.background = currentBg;
+  cardNote.innerHTML = currentNote.replace(/\n/g, "<br>");
+  cardFrom.textContent = currentFrom || "With love ✨";
+  cardHeart.textContent = currentTemplate.heart;
+  cardLabel.textContent = "Thank You";
+
+  if (currentTemplate.dark) {
+    card.style.color = "#f5f0ff";
+    cardNote.style.color = "#f5f0ff";
+    cardFrom.style.color = "#d4c4ff";
+  } else {
+    card.style.color = "";
+    cardNote.style.color = "";
+    cardFrom.style.color = "";
+  }
+}
+
+function buildTemplates() {
+  const box = document.getElementById("templates");
+  box.innerHTML = TEMPLATES.map((t, i) =>
+    `<div class="tpl ${i===0?"active":""}" data-id="${t.id}" style="background:${t.bg};color:${t.dark?"#fff":"#333"}" title="${t.label}">${t.emoji}</div>`
+  ).join("");
+  box.querySelectorAll(".tpl").forEach(el => {
+    el.addEventListener("click", () => {
+      box.querySelectorAll(".tpl").forEach(x => x.classList.remove("active"));
+      el.classList.add("active");
+      currentTemplate = TEMPLATES.find(t => t.id === el.dataset.id);
+      currentBg = currentTemplate.bg;
+      // also sync bg selection
+      document.querySelectorAll(".bg").forEach((b, idx) => {
+        b.classList.toggle("active", BACKGROUNDS[idx] && BACKGROUNDS[idx].style === currentBg);
+      });
+      renderCard();
+    });
+  });
+}
+
+function buildNotes() {
+  const box = document.getElementById("notes");
+  box.innerHTML = NOTES.map((n, i) =>
+    `<div class="note-opt ${i===0?"active":""}" data-idx="${i}">${n.replace(/\n/g," ")}</div>`
+  ).join("");
+  box.querySelectorAll(".note-opt").forEach(el => {
+    el.addEventListener("click", () => {
+      box.querySelectorAll(".note-opt").forEach(x => x.classList.remove("active"));
+      el.classList.add("active");
+      currentNote = NOTES[Number(el.dataset.idx)];
+      customNote.value = currentNote;
+      renderCard();
+    });
+  });
+}
+
+function buildBgs() {
+  const box = document.getElementById("bgs");
+  box.innerHTML = BACKGROUNDS.map((b, i) =>
+    `<div class="bg ${i===0?"active":""}" data-idx="${i}" style="background:${b.style}"></div>`
+  ).join("");
+  box.querySelectorAll(".bg").forEach(el => {
+    el.addEventListener("click", () => {
+      box.querySelectorAll(".bg").forEach(x => x.classList.remove("active"));
+      el.classList.add("active");
+      currentBg = BACKGROUNDS[Number(el.dataset.idx)].style;
+      renderCard();
+    });
+  });
+}
+
+// Live edit
+customNote.addEventListener("input", () => {
+  currentNote = customNote.value.trim() || NOTES[0];
+  renderCard();
+});
+customFrom.addEventListener("input", () => {
+  currentFrom = customFrom.value.trim() || "With love ✨";
+  renderCard();
+});
+
+// Buttons
+document.getElementById("btnCustomize").addEventListener("click", () => {
+  panel.classList.toggle("open");
+  if (panel.classList.contains("open")) {
+    customNote.value = currentNote;
+    customFrom.value = currentFrom === "With love ✨" ? "" : currentFrom;
+    document.getElementById("btnCustomize").textContent = "▲ Hide customize";
+  } else {
+    document.getElementById("btnCustomize").textContent = "✨ Customize (optional)";
+  }
+});
+
+document.getElementById("btnApply").addEventListener("click", () => {
+  currentNote = customNote.value.trim() || currentNote;
+  currentFrom = customFrom.value.trim() || "With love ✨";
+  renderCard();
+  shareCard();
+});
+
+document.getElementById("btnShare").addEventListener("click", shareCard);
+document.getElementById("btnCopy").addEventListener("click", copyText);
+
+function getShareText() {
+  const note = currentNote.replace(/\n/g, " ");
+  return `${note}\n\n— ${currentFrom}\n\nMade with ✦ Wish Craft`;
+}
+
+/* ============================================================
+   Share card + message together
+   - Creates a PNG card in-browser.
+   - Web Share API sends BOTH the PNG file and message when
+     the phone/browser supports file sharing.
+   - Otherwise falls back safely to text sharing.
+   ============================================================ */
+
+
+function escSvg(value) {
+  return String(value ?? "")
+    .replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;").replace(/'/g,"&apos;");
+}
+
+function splitForImage(text, maxChars=31) {
+  const words = String(text || "").replace(/\n/g," ").trim().split(/\s+/);
+  const lines=[]; let line="";
+  for (const word of words) {
+    const test=line ? line+" "+word : word;
+    if (test.length>maxChars && line) { lines.push(line); line=word; }
+    else line=test;
+  }
+  if (line) lines.push(line);
+  return lines.slice(0,6);
+}
+
+function getCardColors() {
+  const map = {
+    soft:["#fff0f7","#f3e9ff","#E76F8E","#241d31"],
+    warm:["#fff5eb","#ffe8d6","#e67e22","#342016"],
+    sky:["#eef6ff","#e4edff","#4a7fd4","#1c2940"],
+    mint:["#f0faf5","#e5f6ee","#2a9d6a","#18352a"],
+    night:["#2b2340","#1a1529","#c4b5fd","#f5f0ff"]
+  };
+  return map[currentTemplate.id] || map.soft;
+}
+
+async function makeSharePng() {
+  const W=1080,H=1350;
+  const [c1,c2,accent,ink]=getCardColors();
+  const lines=splitForImage(currentNote);
+  const from=currentFrom || "With love ✨";
+  const textY=625-Math.max(0,lines.length-3)*18;
+
+  const lineSvg=lines.map((line,i)=>`
+    <text x="540" y="${textY+i*62}" text-anchor="middle"
+      font-family="Georgia, 'Times New Roman', serif" font-size="48"
+      font-weight="700" fill="${ink}">${escSvg(line)}</text>`).join("");
+
+  const svg=`<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">
+    <defs>
+      <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="${c1}"/><stop offset="1" stop-color="${c2}"/>
+      </linearGradient>
+      <filter id="shadow" x="-30%" y="-30%" width="160%" height="160%">
+        <feDropShadow dx="0" dy="18" stdDeviation="24" flood-opacity=".12"/>
+      </filter>
+    </defs>
+    <rect width="1080" height="1350" rx="54" fill="url(#bg)"/>
+    <circle cx="940" cy="120" r="190" fill="#fff" opacity=".18"/>
+    <circle cx="115" cy="1240" r="210" fill="#fff" opacity=".12"/>
+    <rect x="48" y="48" width="984" height="1254" rx="42"
+      fill="none" stroke="#fff" stroke-opacity=".48" stroke-width="3"/>
+    <circle cx="540" cy="405" r="72" fill="#fff" fill-opacity=".42" filter="url(#shadow)"/>
+    <text x="540" y="430" text-anchor="middle" font-size="64">${escSvg(currentTemplate.heart)}</text>
+    <text x="540" y="${textY-74}" text-anchor="middle"
+      font-family="Arial, sans-serif" font-size="24" font-weight="800"
+      letter-spacing="6" fill="${ink}" opacity=".72">THANK YOU</text>
+    ${lineSvg}
+    <rect x="360" y="${textY+lines.length*62+40}" width="360" height="58" rx="29"
+      fill="#fff" fill-opacity=".28" stroke="#fff" stroke-opacity=".32"/>
+    <text x="540" y="${textY+lines.length*62+77}" text-anchor="middle"
+      font-family="Arial, sans-serif" font-size="23" font-weight="700"
+      fill="${ink}" opacity=".86">${escSvg(from)}</text>
+    <text x="540" y="1260" text-anchor="middle"
+      font-family="Arial, sans-serif" font-size="18" font-weight="700"
+      letter-spacing="2" fill="${ink}" opacity=".42">WISH CRAFT</text>
+  </svg>`;
+
+  const blob=new Blob([svg],{type:"image/svg+xml;charset=utf-8"});
+  const url=URL.createObjectURL(blob);
+  try{
+    const img=new Image(); img.decoding="async"; img.src=url;
+    await new Promise((resolve,reject)=>{img.onload=resolve;img.onerror=reject});
+    const canvas=document.createElement("canvas"); canvas.width=W; canvas.height=H;
+    canvas.getContext("2d").drawImage(img,0,0,W,H);
+    return await new Promise((resolve,reject)=>{
+      canvas.toBlob(b=>{
+        if(!b) return reject(new Error("Could not create card image"));
+        resolve(new File([b],"wish-craft-thank-you-card.png",{type:"image/png"}));
+      },"image/png",.94);
+    });
+  } finally { URL.revokeObjectURL(url); }
+}
+
+async function shareCard() {
+  const text=getShareText();
+
+  /* Android Chrome and compatible browsers: share IMAGE + TEXT together. */
+  if (navigator.share && navigator.canShare) {
+    try {
+      const imageFile=await makeSharePng();
+      if (navigator.canShare({files:[imageFile]})) {
+        await navigator.share({
+          title:"Thank You 💖",
+          text:text,
+          files:[imageFile]
+        });
+        return;
+      }
+    } catch(e) {
+      if(e && e.name==="AbortError") return;
+    }
+  }
+
+  /* Compatibility fallback. */
+  if(navigator.share){
+    try{
+      await navigator.share({title:"Thank You 💖",text});
+      return;
+    }catch(e){
+      if(e && e.name==="AbortError") return;
+    }
+  }
+
+  try{
+    await navigator.clipboard.writeText(text);
+    alert("Message copied! ✅\n\nIs browser me card-image sharing available nahi hai, isliye message copy ho gaya.");
+  }catch(e){
+    prompt("Copy this text and share:",text);
+  }
+}
+
+async function copyText() {
+  const text = getShareText();
+  try {
+    await navigator.clipboard.writeText(text);
+    const btn = document.getElementById("btnCopy");
+    const old = btn.textContent;
+    btn.textContent = "Copied ✅";
+    setTimeout(() => btn.textContent = old, 1600);
+  } catch (e) {
+    prompt("Copy this:", text);
+  }
+}
+
+
+// AdSense is initialized centrally by /ads.js.
+buildTemplates();
+buildNotes();
+buildBgs();
+renderCard();
+customNote.value = currentNote;
+</script>
+<script defer="" src="/ad-config.js"></script><script defer="" src="/ads.js"></script>
+<div data-wc-shell-footer=""></div>
+<script defer="" src="/assets/js/shell.js"></script>
+<script defer="" src="/assets/js/creator-shared.js"></script>
+<script defer="" src="/assets/js/a11y.js"></script>
+
+</body>
+</html>

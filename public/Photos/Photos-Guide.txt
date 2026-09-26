@@ -1,0 +1,49 @@
+========================================
+     WISH CRAFT - PHOTOS GUIDE
+========================================
+
+Folder Path:
+  public/Photos/
+
+
+1. OUTER BORDER (Top & Bottom White Area)
+-----------------------------------------
+File Name : border.png
+Full Path : public/Photos/border.png
+Web Path  : /Photos/border.png
+
+• Agar ye image hai → border ki jagah use hogi
+• Agar nahi hai → pure white border rahega
+
+
+2. CARD BACKGROUND (Har Template ke liye)
+-----------------------------------------
+
+▶ Signature Pink Template
+  File Name : bg-aurora.png
+  Full Path : public/Photos/bg-aurora.png
+  Web Path  : /Photos/bg-aurora.png
+
+▶ Vibrant Spring Template
+  File Name : bg-pop.png
+  Full Path : public/Photos/bg-pop.png
+  Web Path  : /Photos/bg-pop.png
+
+• Agar image hai → card ke andar background ban jayegi
+• Agar nahi hai → pehle jaisa gradient background rahega
+
+
+========================================
+IMPORTANT TIPS
+========================================
+
+• Image size recommend:
+  - border.png     → 1400 x 1400 (square)
+  - bg-aurora.png  → 1400 x 800  (landscape)
+  - bg-pop.png     → 1400 x 800  (landscape)
+
+• Format: PNG preferred (transparent bhi chalega)
+• File names bilkul same rakho (case-sensitive)
+• Photos folder mein hi daalo
+
+========================================

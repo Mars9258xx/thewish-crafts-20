@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /admin/
+Disallow: /w/
+Disallow: /my-wishes.html
+Disallow: /qr.html
+Sitemap: https://thewishcrafts.vercel.app/sitemap.xml

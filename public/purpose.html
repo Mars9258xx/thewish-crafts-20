@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/><meta content="width=device-width,initial-scale=1,viewport-fit=cover" name="viewport"/>
+<title>Say It Beautifully — Wish Craft</title>
+<meta content="Create a personalized special wish with a photo and share it with someone you care about." name="description"/>
+<meta content="index, follow" name="robots"/>
+<link href="https://thewishcrafts.vercel.app/purpose.html" rel="canonical"/>
+<meta content="website" property="og:type"/>
+<meta content="Wish Craft" property="og:site_name"/>
+<meta content="Say It Beautifully — Wish Craft" property="og:title"/>
+<meta content="Create a personalized special wish with a photo and share it with someone you care about." property="og:description"/>
+<meta content="https://thewishcrafts.vercel.app/purpose.html" property="og:url"/>
+<meta content="https://thewishcrafts.vercel.app/og-image.jpg" property="og:image"/>
+<meta content="1200" property="og:image:width"/>
+<meta content="630" property="og:image:height"/>
+<meta content="Wish Craft — beautiful digital wishes" property="og:image:alt"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="Say It Beautifully — Wish Craft" name="twitter:title"/>
+<meta content="Create a personalized special wish with a photo and share it with someone you care about." name="twitter:description"/>
+<meta content="https://thewishcrafts.vercel.app/og-image.jpg" name="twitter:image"/>
+<meta content="Wish Craft — beautiful digital wishes" name="twitter:image:alt"/>
+<link href="/assets/brand/wishcraft-mark.svg" rel="icon" type="image/svg+xml"/>
+<link href="/site.webmanifest" rel="manifest"/>
+<meta content="#E85B83" name="theme-color"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/><link href="/assets/css/site.css" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&amp;family=DM+Sans:wght@400;500;600;700;800&amp;family=Playfair+Display:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+</head><body class="wc-creator-page" data-relation="Purpose" data-templates='[{"file": "/templates/purpose/for-girl.html", "label": "For Girl", "sub": "Soft &amp; expressive", "icon": "💗"}, {"file": "/templates/purpose/for-boy.html", "label": "For Boy", "sub": "Clean &amp; heartfelt", "icon": "💙"}]'>
+<div data-wc-shell-header=""></div>
+<main class="wrap" id="main-content">
+<div class="hero">
+<div class="eyebrow">Something Special · MADE FOR THE MOMENT</div>
+<h1>Say it beautifully, in your own way.</h1>
+<p>For the feelings that do not need a label — a thank-you, a quiet confession, a celebration, or simply a reminder that someone matters.</p>
+</div>
+<!-- Wizard Step Indicators -->
+<div aria-label="Creation steps" class="wizard-progress" id="wizardProgress" role="list">
+<div aria-current="step" class="wizard-step-indicator active" data-indicator="1" role="listitem">1</div>
+<div aria-current="false" class="wizard-step-indicator" data-indicator="2" role="listitem">2</div>
+<div aria-current="false" class="wizard-step-indicator" data-indicator="3" role="listitem">3</div>
+<div aria-current="false" class="wizard-step-indicator" data-indicator="4" role="listitem">4</div>
+</div>
+<div class="grid">
+<section class="panel" id="formPanel">
+<!-- Step 1: Recipient Name -->
+<div class="wizard-step-content active-step" data-step="1">
+<div class="field">
+<label for="recipient">Jisko bhejna hai unka naam bataiye</label>
+<input id="recipient" maxlength="80" placeholder="e.g. Aarav" type="text"/>
+</div>
+<div class="actions">
+<button class="primary" id="nextStep1" type="button">Aage Badhein ✦</button>
+</div>
+</div>
+<!-- Step 2: Sender Name -->
+<div class="wizard-step-content" data-step="2" hidden="True">
+<div class="field">
+<label for="sender">Aapka naam kya hai?</label>
+<input id="sender" maxlength="80" placeholder="e.g. Rahul" type="text"/>
+</div>
+<div class="actions">
+<button class="btn-back-step" onclick="changeStep(1)" type="button">Back</button>
+<button class="primary" id="nextStep2" type="button">Aage Badhein ✦</button>
+</div>
+</div>
+<!-- Step 3: Note + Photo -->
+<div class="wizard-step-content" data-step="3" hidden="True">
+<div class="field">
+<label for="personalDetails">Personal message / details · optional</label>
+<textarea id="personalDetails" maxlength="1200" placeholder="Write a memory, feeling, inside joke, or a few words from your heart…" rows="5">Dil ki baat jo kehni hai, woh yahan likhi hai. Tumhare sath har pal khubsurat lagta hai!</textarea>
+</div>
+<div class="field">
+<label for="photo">Recipient photo · optional</label>
+<div class="upload">
+<input accept="image/jpeg,image/png,image/webp" id="photo" type="file"/>
+<div id="photoName" style="font-size:9px;color:#827889;margin-top:7px">No photo selected</div>
+<img alt="Preview" class="photo-preview" hidden="" id="photoPreview"/>
+</div>
+</div>
+<div class="actions">
+<button class="btn-back-step" onclick="changeStep(2)" type="button">Back</button>
+<button class="primary" id="nextStep3" type="button">Aage Badhein ✦</button>
+</div>
+</div>
+<!-- Step 4: Template Choose & Preview -->
+<div class="wizard-step-content" data-step="4" hidden="True">
+<div class="field">
+<div aria-label="Choose a wish template" class="templates" id="templates" role="group"></div>
+</div>
+<div class="actions">
+<button class="btn-back-step" onclick="changeStep(3)" type="button">Back</button>
+<button class="primary" id="previewBtn">Preview all 6 pages ✦</button>
+</div>
+</div>
+<div class="status" id="status">Step-by-step purpose wizard experience.</div>
+</section>
+<section class="panel preview-panel" hidden="" id="previewPanel">
+<div class="preview-head">
+<h2>Six-page preview</h2>
+<button class="secondary" id="backForm">← Edit</button>
+</div>
+<iframe id="preview" title="Six-page preview"></iframe>
+<div class="actions">
+<button class="primary" id="create">Create Purpose &amp; Send Link</button>
+</div>
+<div class="status">Check the complete experience first. Then create your share link.</div>
+</section>
+</div>
+
+<section class="wc-creator-story" aria-labelledby="creatorStoryTitle">
+<div class="wc-creator-story__intro">
+<div class="wc-creator-story__card"><p class="wc-kicker">WHY IT FEELS DIFFERENT</p><h2 id="creatorStoryTitle">Not every feeling needs a category.</h2><p>Choose a style, add your words and make a small digital experience around one person. It stays simple to create, but feels special to receive.</p><div class="wc-creator-story__chips"><span class="wc-creator-story__chip">Any special moment</span><span class="wc-creator-story__chip">Personal details</span><span class="wc-creator-story__chip">Photo memories</span><span class="wc-creator-story__chip">Easy to share</span></div></div>
+<div class="wc-creator-story__card"><p class="wc-kicker">A CALM CREATION FLOW</p><h2>Simple enough to finish in a few minutes.</h2><p>No complicated editor. No blank canvas. Just a guided path that keeps the emotional part — your words — in focus.</p></div>
+</div>
+<div class="wc-creator-story__steps"><article class="wc-creator-story__step"><div class="wc-creator-story__num">01</div><h3>Choose your person</h3><p>Tell us who should receive the moment and make the opening feel personal.</p></article><article class="wc-creator-story__step"><div class="wc-creator-story__num">02</div><h3>Put it into words</h3><p>Write whatever matters — a few lines, a memory, or something you have been meaning to say.</p></article><article class="wc-creator-story__step"><div class="wc-creator-story__num">03</div><h3>Make it theirs</h3><p>Choose a template, preview the result and send one beautiful direct link.</p></article></div>
+</section>
+</main>
+<section class="creator-details" aria-labelledby="creatorDetailsTitle">
+  <div class="creator-details-head">
+    <span class="creator-section-eyebrow">Special occasion · made for your words</span>
+    <h2 id="creatorDetailsTitle">Say something they’ll want to keep.</h2>
+    <p>Not every feeling needs a special date. Create a warm, personal digital experience for the moments that simply matter.</p>
+  </div>
+  <div class="creator-feature-grid"><article class="creator-feature-card"><span class="creator-feature-number">01</span><h3>Made around one person</h3><p>Start with their name and shape the experience around what you want to say.</p></article><article class="creator-feature-card"><span class="creator-feature-number">02</span><h3>Add a real memory</h3><p>Include a photo and personal details to make the message feel unmistakably yours.</p></article><article class="creator-feature-card"><span class="creator-feature-number">03</span><h3>A complete six-page experience</h3><p>Pick a template, preview the journey and create a simple link to share.</p></article></div>
+  <div class="creator-how">
+    <div class="creator-how-copy">
+      <span class="creator-section-eyebrow">How it comes together</span>
+      <h2>Simple to make. Lovely to receive.</h2>
+      <p>For thank-yous, encouragement, love, friendship and all the moments between.</p>
+    </div>
+    <ol class="creator-step-list"><li><span>01</span><div><h3>Tell us who it’s for</h3><p>Enter their name and your name so the experience feels personal from the start.</p></div></li><li><span>02</span><div><h3>Write from the heart</h3><p>Add your message, a photo and a style that fits the moment.</p></div></li><li><span>03</span><div><h3>Preview & share</h3><p>Check the full experience before creating your final wish link.</p></div></li></ol>
+  </div>
+  <div class="creator-trust-row" aria-label="Wish Craft experience highlights">
+    <span>✦ Personal by design</span><span>♡ Photo-friendly</span><span>↗ Easy to share</span><span>⌁ Made for mobile</span>
+  </div>
+</section>
+<div aria-hidden="true" class="wc-photo-modal" id="wcPhotoModal">
+<div aria-describedby="wc-photo-help" aria-labelledby="wcCropTitle" aria-modal="true" class="wc-photo-dialog" role="dialog">
+<div class="wc-photo-head"><h3 id="wcCropTitle">Adjust your photo</h3><button aria-label="Close" class="wc-photo-close" id="wcCropClose" type="button">×</button></div>
+<div class="wc-crop-stage" id="wcCropStage"><canvas id="wcCropCanvas"></canvas><div class="wc-crop-guide"></div></div>
+<div class="wc-photo-controls">
+<div class="wc-zoom-row"><span>−</span><input aria-label="Photo zoom" id="wcCropZoom" max="3" min="1" step=".01" type="range" value="1"/><span>+</span></div>
+<div class="wc-crop-actions"><button class="wc-reset" id="wcCropReset" type="button">Reset</button><button class="wc-apply" id="wcCropApply" type="button">Use this crop ✦</button></div>
+<div class="wc-photo-help" id="wc-photo-help">Drag the photo to position it · pinch/slider to zoom</div>
+</div>
+</div>
+</div>
+<script>
+const $=id=>document.getElementById(id);let chosenFile=null,uploaded=null,currentTemplate=null;
+const esc=s=>String(s||'').replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
+
+// Wizard Logic & Navigation
+let currentWizardStep = 1;
+function changeStep(step) {
+  currentWizardStep = step;
+  document.querySelectorAll('.wizard-step-content').forEach(el => {
+    const active = Number(el.dataset.step) === step;
+    el.classList.toggle('active-step', active);
+    el.hidden = !active;
+  });
+  document.querySelectorAll('.wizard-step-indicator').forEach(el => {
+    const sNum = Number(el.dataset.indicator);
+    const active = sNum === step;
+    el.classList.toggle('active', active);
+    el.classList.toggle('completed', sNum < step);
+    el.setAttribute('aria-current', active ? 'step' : 'false');
+  });
+  window.wcA11yAnnounce?.(`Step ${step} of 4`);
+}
+
+$('nextStep1').onclick = () => {
+  const val = $('recipient').value.trim();
+  if(!val) {
+    $('recipient').classList.add('shake');
+    setTimeout(() => $('recipient').classList.remove('shake'), 400);
+    alert('Kripya batayein ki ye kiske liye hai!');
+    return;
+  }
+  changeStep(2);
+};
+
+$('nextStep2').onclick = () => {
+  const val = $('sender').value.trim();
+  if(!val) {
+    $('sender').classList.add('shake');
+    setTimeout(() => $('sender').classList.remove('shake'), 400);
+    alert('Kripya apna shubh naam darj karein!');
+    return;
+  }
+  changeStep(3);
+};
+
+$('nextStep3').onclick = () => {
+  changeStep(4);
+};
+
+// V16 photo flow
+let croppedPhotoBlob=null, cropImage=null, cropScale=1, cropX=0, cropY=0, cropBaseScale=1, cropDragging=false, cropLastX=0, cropLastY=0;
+const cropModal=$('wcPhotoModal'), cropCanvas=$('wcCropCanvas'), cropStage=$('wcCropStage'), cropZoom=$('wcCropZoom');
+const cropCtx=cropCanvas.getContext('2d');
+function openCropper(file){
+  const reader=new FileReader();
+  reader.onload=()=>{const im=new Image();im.onload=()=>{cropImage=im;cropScale=1;cropX=0;cropY=0;cropZoom.value=1;cropModal.classList.add('open');cropModal.setAttribute('aria-hidden','false');requestAnimationFrame(drawCrop)};im.src=reader.result};
+  reader.readAsDataURL(file);
+}
+function drawCrop(){
+  if(!cropImage)return;
+  const size=Math.min(cropStage.clientWidth-8,cropStage.clientHeight-8,420);
+  const w=Math.max(220,Math.round(size)),h=w;
+  cropCanvas.width=w;cropCanvas.height=h;
+  const cover=Math.max(w/cropImage.width,h/cropImage.height);
+  cropBaseScale=cover;
+  const s=cover*cropScale;
+  const dw=cropImage.width*s,dh=cropImage.height*s;
+  const cx=w/2+cropX,cy=h/2+cropY;
+  cropCtx.clearRect(0,0,w,h);cropCtx.fillStyle="#17121a";cropCtx.fillRect(0,0,w,h);
+  cropCtx.drawImage(cropImage,cx-dw/2,cy-dh/2,dw,dh);
+}
+function resetCrop(){cropScale=1;cropX=0;cropY=0;cropZoom.value=1;drawCrop()}
+function closeCrop(){cropModal.classList.remove('open');cropModal.setAttribute('aria-hidden','true')}
+function encodeSquarePhoto(){
+  return new Promise(resolve=>{
+    const w=cropCanvas.width,h=cropCanvas.height,s=Math.max(1,Math.min(w,h));
+    const scale=Math.min(1,1800/s),out=Math.max(640,Math.round(s*scale));
+    const cover=Math.max(w/cropImage.width,h/cropImage.height),zoom=cover*cropScale;
+    const dw=cropImage.width*zoom,dh=cropImage.height*zoom;
+    const left=w/2+cropX-dw/2,top=h/2+cropY-dh/2;
+    const sx=Math.max(0,Math.min(cropImage.width-1,(0-left)/zoom));
+    const sy=Math.max(0,Math.min(cropImage.height-1,(0-top)/zoom));
+    const sw=Math.min(cropImage.width-sx,w/zoom),sh=Math.min(cropImage.height-sy,h/zoom);
+    const c=document.createElement('canvas');c.width=out;c.height=out;const ctx=c.getContext('2d',{alpha:false});
+    ctx.imageSmoothingEnabled=true;ctx.imageSmoothingQuality='high';ctx.drawImage(cropImage,sx,sy,sw,sh,0,0,out,out);
+    const finish=q=>c.toBlob(b=>{if(!b||b.size>950000){if(q<=.76)return resolve(b);return finish(Math.max(.76,q-.04))}resolve(b)},'image/webp',q);
+    finish(.90);
+  });
+}
+cropZoom.oninput=()=>{cropScale=Number(cropZoom.value);drawCrop()};
+$('wcCropReset').onclick=resetCrop;$('wcCropClose').onclick=closeCrop;
+cropStage.addEventListener('pointerdown',e=>{cropDragging=true;cropLastX=e.clientX;cropLastY=e.clientY;cropStage.setPointerCapture?.(e.pointerId)});
+cropStage.addEventListener('pointermove',e=>{if(!cropDragging)return;cropX+=e.clientX-cropLastX;cropY+=e.clientY-cropLastY;cropLastX=e.clientX;cropLastY=e.clientY;drawCrop()});
+cropStage.addEventListener('pointerup',()=>cropDragging=false);cropStage.addEventListener('pointercancel',()=>cropDragging=false);
+$('wcCropApply').onclick=async()=>{if(!cropImage)return;$('photoName').textContent='Optimizing 1:1 photo…';croppedPhotoBlob=await encodeSquarePhoto();const u=URL.createObjectURL(croppedPhotoBlob);$('photoPreview').src=u;$('photoPreview').hidden=false;$('photoName').textContent='1:1 photo ready · high quality';closeCrop()};
+$('photo').onchange=async e=>{const f=e.target.files[0]||null;if(!f)return;if(!/^image\/(jpeg|png|webp)$/.test(f.type)){alert('Please choose JPG, PNG or WebP.');return}$('photoName').textContent='Opening photo…';const reader=new FileReader();reader.onload=()=>{const im=new Image();im.onload=()=>{cropImage=im;cropScale=1;cropX=0;cropY=0;cropZoom.value=1;cropModal.classList.add('open');cropModal.setAttribute('aria-hidden','false');requestAnimationFrame(drawCrop)};im.src=reader.result};reader.readAsDataURL(f)};
+
+function templateList(){return JSON.parse(document.body.dataset.templates||'[]')}
+function renderTemplates(){const list=templateList();$('templates').innerHTML=list.map((t,i)=>`<button type="button" class="template ${i===0?'active':''}" data-file="${t.file}" data-label="${esc(t.label)}"><span>${t.icon}</span><div><b>${esc(t.label)}</b><small>${esc(t.sub)}</small></div></button>`).join('');currentTemplate=list[0];$('templates').onclick=e=>{const b=e.target.closest('.template');if(!b)return;document.querySelectorAll('.template').forEach(x=>x.classList.remove('active'));b.classList.add('active');currentTemplate=list.find(x=>x.file===b.dataset.file);preview()}}
+
+function photoBlock(url){return url?`<img src="${esc(url)}" alt="Recipient photo" loading="lazy">`:'<div class="wc6-photo-empty" role="img" aria-label="Decorative memory placeholder">✦</div>'}
+function replaceToken(html,name,value){const safe=String(value??'');return html.replaceAll(`{{${name}}}`,safe).replaceAll(`{${name}}`,safe)}
+async function loadTemplate(){const r=await fetch(currentTemplate.file,{cache:'no-store'});if(!r.ok)throw Error('Template could not load');return await r.text()}
+async function build(useRemote=false){
+  let html=await loadTemplate();
+  const recipient=esc($('recipient').value.trim()||'Someone Special');
+  const sender=esc($('sender').value.trim()||'Someone Who Cares');
+  const details=esc($('personalDetails')?.value.trim()||`A little note made especially for ${recipient}.`);
+  const photoUrl=useRemote&&uploaded?.proxyPath?uploaded.proxyPath:(croppedPhotoBlob?URL.createObjectURL(croppedPhotoBlob):'');
+  html=replaceToken(html,'RECIPIENT_NAME',recipient);
+  html=replaceToken(html,'SENDER_NAME',sender);
+  html=replaceToken(html,'PERSONAL_DETAILS',details);
+  html=replaceToken(html,'PHOTO_BLOCK',photoBlock(photoUrl));
+  return html;
+}
+async function preview(){
+  const recipient=$('recipient').value.trim();
+  const sender=$('sender').value.trim();
+  if(!recipient||!sender){
+    alert('Kripya dono naam bharna sunishchit karein!');
+    return;
+  }
+  try{
+    $('preview').srcdoc=await build(false);$('previewPanel').hidden=false;
+    $('formPanel').hidden=true;
+    $('wizardProgress').hidden=true;
+  }catch(e){$('status').textContent=e.message}
+}
+async function create(){
+  const recipient=$('recipient').value.trim(),sender=$('sender').value.trim();
+  if(!recipient||!sender){alert('Please enter both names.');return}
+  $('create').disabled=true;$('create').textContent='Creating your link…';
+  try{
+    if(croppedPhotoBlob&&!uploaded){const fd=new FormData();fd.append('photo',croppedPhotoBlob,'wish-photo.webp');const r=await fetch('/api/upload-photo',{method:'POST',body:fd});const d=await r.json();if(!r.ok)throw Error(d.error||'Photo upload failed');uploaded=d}
+    const html=await build(true);
+    const r=await fetch('/api/save-wish',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({html,name:recipient,relation:document.body.dataset.relation,style:currentTemplate.label,personalDetails:$('personalDetails')?.value.trim()||'',photoUrl:uploaded?.proxyPath||'',photoPath:uploaded?.path||'',deletePhotoOnExpire:true})});
+    const d=await r.json();if(!r.ok)throw Error(d.error||'Could not create wish');
+    try{const ids=JSON.parse(localStorage.getItem('wishCraftIds')||'[]');if(d.id&&!ids.includes(d.id))ids.unshift(d.id);localStorage.setItem('wishCraftIds',JSON.stringify(ids.slice(0,30)))}catch(_){}
+    location.href='/qr.html?u='+encodeURIComponent(d.url)+'&name='+encodeURIComponent(recipient)
+  }catch(e){alert(e.message);$('create').disabled=false;$('create').textContent='Create Purpose & Send Link'}
+}
+$('previewBtn').onclick=preview;$('create').onclick=create;
+$('backForm').onclick=()=>{$('previewPanel').hidden=true;
+  $('formPanel').hidden=false;
+  $('wizardProgress').hidden=false;
+};
+renderTemplates();
+</script>
+<script defer="" src="/ad-config.js"></script><script defer="" src="/ads.js"></script>
+<div data-wc-shell-footer=""></div>
+<script defer="" src="/assets/js/shell.js"></script>
+<script defer="" src="/assets/js/creator-shared.js"></script>
+<script defer="" src="/assets/js/a11y.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,15 @@
+{
+  "name": "Wish Craft — Make It Yours",
+  "short_name": "Wish Craft",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "display_override": ["window-controls-overlay", "standalone", "minimal-ui"],
+  "background_color": "#FFF9F6",
+  "theme_color": "#E85B83",
+  "description": "Create beautiful personalized wishes and shareable digital surprises.",
+  "icons": [
+    { "src": "/assets/brand/icon-192.png", "type": "image/png", "sizes": "192x192", "purpose": "any maskable" },
+    { "src": "/assets/brand/icon-512.png", "type": "image/png", "sizes": "512x512", "purpose": "any maskable" }
+  ]
+}

@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1,viewport-fit=cover" name="viewport"/>
+<title>Wish Craft — Share Your Wish</title>
+<meta content="Generate a QR code or copy the direct Wish Craft link for a wish you just created." name="description"/>
+<meta content="noindex, nofollow, noarchive" name="robots"/>
+<link href="https://thewishcrafts.vercel.app/qr.html" rel="canonical"/>
+<meta content="website" property="og:type"/>
+<meta content="Wish Craft" property="og:site_name"/>
+<meta content="Wish Craft — Share Your Wish" property="og:title"/>
+<meta content="Generate a QR code or copy the direct Wish Craft link for a wish you just created." property="og:description"/>
+<meta content="https://thewishcrafts.vercel.app/qr.html" property="og:url"/>
+<meta content="https://thewishcrafts.vercel.app/og-image.jpg" property="og:image"/>
+<meta content="1200" property="og:image:width"/>
+<meta content="630" property="og:image:height"/>
+<meta content="Wish Craft — beautiful digital wishes" property="og:image:alt"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="Wish Craft — Share Your Wish" name="twitter:title"/>
+<meta content="Generate a QR code or copy the direct Wish Craft link for a wish you just created." name="twitter:description"/>
+<meta content="https://thewishcrafts.vercel.app/og-image.jpg" name="twitter:image"/>
+<meta content="Wish Craft — beautiful digital wishes" name="twitter:image:alt"/>
+<link href="/site.webmanifest" rel="manifest"/>
+<meta content="#E85B83" name="theme-color"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="/assets/css/site.css" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&amp;family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&amp;family=Playfair+Display:ital,wght@0,400..900;1,400..900&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+</head>
+<body>
+<div data-wc-shell-header=""></div>
+<main class="wrap" id="main-content">
+<div class="intro">
+<h1>Your wish is ready to <span>share.</span></h1>
+<p>Saved successfully. Send this gorgeous card or direct link to your recipient.</p>
+</div>
+<section class="panel">
+<div class="template-tabs" id="templateTabs"></div>
+<div class="color-row" id="colors"></div>
+<div class="share-area">
+<div class="card-shell"><canvas height="1400" id="previewCanvas" width="1400"></canvas></div>
+</div>
+<div class="card-actions">
+<button class="action primary" id="shareBtn"><span>🎁</span> Send QR Link</button>
+<button class="action secondary" id="downloadBtn"><span>✨</span> Save Clean Card</button>
+</div>
+<div class="link-preview"><b>SURPRISE LINK</b><span id="linkText"></span></div>
+<div class="hint">The share message includes <b id="nameHint">Someone Special</b> by name, plus the direct surprise link.</div>
+</section>
+<div class="ad" data-wc-ad="qr"></div>
+</main>
+<script>
+(function(){
+  const p=new URLSearchParams(location.search);
+  const u=p.get('u')||location.origin;
+  const name=(p.get('name')||'Someone Special').trim().slice(0,80)||'Someone Special';
+  let selected=p.get('template')||({birthday:'aurora',love:'aurora',friend:'pop',cute:'pop',royal:'aurora'}[p.get('theme')]||'aurora');
+  const safe=s=>String(s).replace(/[^a-z0-9]+/gi,'-').replace(/^-|-$/g,'').slice(0,48)||'Surprise';
+
+  // ONLY 2 TEMPLATES
+  const templates={
+    aurora:{label:'Signature Pink',sub:'Official Wish Craft theme',bg:'#FFF9F6',bg1:'#FFF4F8',bg2:'#FFFFFF',bg3:'#FDE7EF',cardBg:'#FFFFFF',accent:'#E91E63',accent2:'#8F174F',ink:'#160A18',tag:'✨ SCAN TO OPEN ✨'},
+    pop:{label:'Vibrant Spring',sub:'Fresh & Joyful',bg:'#FAF7FA',bg1:'#FAF7FA',bg2:'#FFFFFF',bg3:'#F1E8F0',cardBg:'#FFFFFF',accent:'#A85C86',accent2:'#D89A57',ink:'#3A2630',tag:'✦ YOUR SURPRISE ✦'}
+  };
+
+  const colors=['#000000'];
+  const tabs=document.getElementById('templateTabs'),colorsEl=document.getElementById('colors'),canvas=document.getElementById('previewCanvas'),ctx=canvas.getContext('2d');
+  document.getElementById('linkText').textContent=u;document.getElementById('nameHint').textContent=name;
+  tabs.innerHTML=Object.entries(templates).map(([k,v])=>`<button class="template-tab" data-t="${k}">${v.label}<small>${v.sub}</small></button>`).join('');
+  colorsEl.innerHTML=colors.map(c=>`<button class="swatch" data-c="${c}" style="background:${c}" aria-label="QR color ${c}"></button>`).join('');
+  
+  function rr(c,x,y,w,h,r){r=Math.min(r,w/2,h/2);c.beginPath();c.moveTo(x+r,y);c.arcTo(x+w,y,x+w,y+h,r);c.arcTo(x+w,y+h,x,y+h,r);c.arcTo(x,y+h,x,y,r);c.arcTo(x,y,x+w,y,r);c.closePath()}
+  function qrDataUrl(){const holder=document.createElement('div');holder.style.position='fixed';holder.style.left='-9999px';document.body.appendChild(holder);new QRCode(holder,{text:u,width:520,height:520,colorDark:'#000000',colorLight:'#ffffff',correctLevel:QRCode.CorrectLevel.H});const el=holder.querySelector('canvas')||holder.querySelector('img');if(el&&el.tagName==='CANVAS'){const d=el.toDataURL('image/png');holder.remove();return d}if(el){const src=el.src;holder.remove();return src}holder.remove();throw Error('QR generation failed')}
+  function loadImage(src){return new Promise((resolve,reject)=>{const im=new Image();im.onload=()=>resolve(im);im.onerror=reject;im.src=src})}
+
+  let qrCache=null;
+  async function getQrImage(){if(qrCache)return qrCache;qrCache=loadImage(qrDataUrl());return qrCache}
+  function hexToRgba(hex,a){const h=hex.replace('#','');const n=parseInt(h.length===3?h.split('').map(x=>x+x).join(''):h,16);return `rgba(${(n>>16)&255},${(n>>8)&255},${n&255},${a})`}
+  function fitName(c,text,maxWidth,size){let s=size;c.font=`700 ${s}px "Dancing Script",cursive`;while(c.measureText(text).width>maxWidth&&s>24){s-=1;c.font=`700 ${s}px "Dancing Script",cursive`}return s}
+  function drawSpark(c,x,y,size,color,alpha=.7){c.save();c.globalAlpha=alpha;c.fillStyle=color;c.beginPath();c.moveTo(x,y-size);c.lineTo(x+size*.24,y-size*.24);c.lineTo(x+size,y);c.lineTo(x+size*.24,y+size*.24);c.lineTo(x,y+size);c.lineTo(x-size*.24,y+size*.24);c.lineTo(x-size,y);c.lineTo(x-size*.24,y-size*.24);c.closePath();c.fill();c.restore()}
+
+  // Optional outer border image
+  let borderImgCache = null;
+  async function getBorderImage(){
+    if(borderImgCache !== null) return borderImgCache;
+    try{
+      borderImgCache = await loadImage('/Photos/border.png');
+      return borderImgCache;
+    }catch(e){
+      borderImgCache = false;
+      return null;
+    }
+  }
+
+  // Optional per-template background image
+  const bgImgCache = {};
+  async function getTemplateBg(key){
+    if(bgImgCache[key] !== undefined) return bgImgCache[key];
+    try{
+      const img = await loadImage('/Photos/bg-' + key + '.png');
+      bgImgCache[key] = img;
+      return img;
+    }catch(e){
+      bgImgCache[key] = false;
+      return null;
+    }
+  }
+
+  async function draw(){
+    const t=templates[selected]||templates.aurora,c=ctx;
+    const W=1400, H=1400;
+    const cardW=1400, cardH=800;
+    const offsetY = (H - cardH) / 2;
+
+    canvas.width=W; canvas.height=H;
+    c.clearRect(0,0,W,H);
+
+    if(document.fonts?.ready)try{await document.fonts.ready}catch(_){}
+
+    const ink=t.ink,muted='#756778',accent=t.accent,accent2=t.accent2;
+
+    // ===== OUTER BORDER (top/bottom expand) =====
+    const customBorder = await getBorderImage();
+    if(customBorder){
+      c.drawImage(customBorder, 0, 0, W, H);
+    }else{
+      c.fillStyle='#ffffff';
+      c.fillRect(0,0,W,H);
+    }
+
+    // ===== ORIGINAL CARD CONTENT (centered) =====
+    c.save();
+    c.translate(0, offsetY);
+
+    // Soft shadow under card
+    c.save();
+    c.shadowColor='rgba(100,30,65,.22)';
+    c.shadowBlur=38;
+    c.shadowOffsetY=14;
+    c.fillStyle=t.cardBg;
+    rr(c,26,26,cardW-52,cardH-52,34);
+    c.fill();
+    c.restore();
+
+    // Card border strokes
+    c.save();
+    c.strokeStyle='#ffffff';
+    c.lineWidth=7;
+    rr(c,26,26,cardW-52,cardH-52,34);
+    c.stroke();
+    c.strokeStyle=hexToRgba(accent,.35);
+    c.lineWidth=2.5;
+    rr(c,32,32,cardW-64,cardH-64,30);
+    c.stroke();
+
+    c.fillStyle=hexToRgba(accent,.45);
+    const borderPts=[[80,40],[200,34],[400,30],[700,30],[1000,34],[1220,40],[1320,120],[1340,300],[1340,500],[1320,680],[1200,750],[900,760],[600,760],[300,750],[80,720],[40,550],[34,350],[40,150]];
+    borderPts.forEach(([bx,by],i)=>{c.beginPath();c.arc(bx,by,i%3===0?5:3.5,0,Math.PI*2);c.fill()});
+    c.restore();
+
+    // Clip to rounded card
+    c.save();
+    rr(c,26,26,cardW-52,cardH-52,34);
+    c.clip();
+
+    // ===== CARD BACKGROUND: custom image OR gradient =====
+    const customBg = await getTemplateBg(selected);
+    if(customBg){
+      // Use custom background image for this template
+      c.drawImage(customBg, 0, 0, cardW, cardH);
+    }else{
+      // Fallback gradient
+      const bg=c.createLinearGradient(20,20,cardW-20,cardH-20);
+      bg.addColorStop(0,t.bg1);
+      bg.addColorStop(.55,t.bg2);
+      bg.addColorStop(1,t.bg3);
+      c.fillStyle=bg;
+      c.fillRect(0,0,cardW,cardH);
+
+      const rg=c.createRadialGradient(1120,90,10,1120,90,360);
+      rg.addColorStop(0,hexToRgba(accent,.20));
+      rg.addColorStop(1,hexToRgba(accent,0));
+      c.fillStyle=rg;
+      c.fillRect(760,0,640,420);
+
+      const lg=c.createRadialGradient(180,700,20,180,700,320);
+      lg.addColorStop(0,hexToRgba(accent2,.14));
+      lg.addColorStop(1,hexToRgba(accent2,0));
+      c.fillStyle=lg;
+      c.fillRect(0,450,600,350);
+    }
+
+    // Decorative sparks (always)
+    drawSpark(c,cardW-94,92,11,accent,.55);
+    drawSpark(c,88,cardH-88,8,accent2,.4);
+
+    // Watermark
+    c.fillStyle=hexToRgba(accent,.045);
+    c.font='800 118px "Playfair Display",Georgia,serif';
+    c.textAlign='center';
+    c.textBaseline='middle';
+    c.fillText('WISH CRAFT',cardW/2,cardH/2+24);
+
+    // QR Code
+    const qr=await getQrImage(),qSz=250,qx=135,qy=214;
+    c.save();
+    c.shadowColor=hexToRgba(accent,.18);
+    c.shadowBlur=28;
+    c.shadowOffsetY=8;
+    c.fillStyle='#fff';
+    rr(c,qx-18,qy-18,qSz+36,qSz+36,24);
+    c.fill();
+    c.restore();
+    c.strokeStyle=hexToRgba(accent,.22);
+    c.lineWidth=2;
+    rr(c,qx-18,qy-18,qSz+36,qSz+36,24);
+    c.stroke();
+    c.drawImage(qr,qx,qy,qSz,qSz);
+
+    c.textAlign='center';
+    c.fillStyle=ink;
+    c.font='800 25px "DM Sans",Arial';
+    c.fillText('SCAN TO OPEN',qx+qSz/2,qy+qSz+52);
+    c.fillStyle=muted;
+    c.font='500 27px "DM Sans",Arial';
+    c.fillText('Point your phone camera here',qx+qSz/2,qy+qSz+84);
+
+    // Right side text content
+    const rx=575;let ty=126;
+    c.textAlign='left';
+    c.fillStyle=accent;
+    rr(c,rx,ty,52,52,16);
+    c.fill();
+    c.fillStyle='#fff';
+    c.font='800 27px "DM Sans",Arial';
+    c.textAlign='center';
+    c.fillText('✦',rx+26,ty+35);
+    c.textAlign='left';
+    c.fillStyle=ink;
+    c.font='800 48px "Playfair Display",Georgia,serif';
+    c.fillText('Wish Craft',rx+70,ty+26);
+    c.fillStyle=muted;
+    c.font='600 28px "Dancing Script",cursive';
+    c.fillText('Turn feelings into beautiful wishes ',rx+70,ty+54);
+
+    ty+=120;
+    c.fillStyle=ink;
+    c.font='800 49px "Playfair Display",Georgia,serif';
+    c.fillText('Ek Pyara Sa Tohfa,',rx,ty);
+    ty+=58;
+    c.fillStyle=accent;
+    c.font='800 49px "Playfair Display",Georgia,serif';
+    c.fillText('Tumhare Liye!',rx,ty);
+    ty+=20;
+    c.strokeStyle=accent;
+    c.lineWidth=3;
+    c.beginPath();
+    c.moveTo(rx,ty);
+    c.lineTo(rx+175,ty);
+    c.stroke();
+
+    ty+=50;
+    ['A heartfelt digital surprise made just for you','Filled with cherished memories & moments','Tap the QR code to unlock your full experience'].forEach(txt=>{
+      c.fillStyle=accent;
+      c.beginPath();
+      c.arc(rx+8,ty-7,6,0,Math.PI*2);
+      c.fill();
+      c.fillStyle=muted;
+      c.font='500 30px "Playfair Display",Georgia,serif';
+      c.fillText(txt,rx+27,ty);
+      ty+=42;
+    });
+
+    ty+=18;
+    c.fillStyle=muted;
+    c.font='600 20px "DM Sans",Arial';
+    c.fillText('SPECIAL DEDICATION FOR',rx,ty);
+    ty+=56;
+    c.fillStyle=accent;
+    const ns=fitName(c,name,700,62);
+    c.font=`700 ${ns}px "Dancing Script",cursive`;
+    c.fillText(name,rx,ty);
+
+    c.textAlign='center';
+    c.fillStyle=accent;
+    c.font='700 40px "Dancing Script",cursive';
+    c.fillText('Dil se banaya gaya, sirf tumhare liye',cardW/2,cardH-60);
+
+    // Corner flowers
+    c.save();
+    c.globalAlpha=.6;
+    c.font='48px "Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif';
+    c.textAlign='left';
+    c.fillText('🌸',38,68);
+    c.textAlign='right';
+    c.fillText('🌸',cardW-38,68);
+    c.textAlign='left';
+    c.fillText('🌸',38,cardH-42);
+    c.textAlign='right';
+    c.fillText('🌸',cardW-38,cardH-42);
+    c.restore();
+
+    c.restore(); // end clip
+    c.restore(); // end translate
+  }
+
+  let drawing=false;
+  async function refresh(){
+    document.querySelectorAll('.template-tab').forEach(x=>x.classList.toggle('active',x.dataset.t===selected));
+    if(drawing)return;
+    drawing=true;
+    try{await draw()}catch(e){console.error(e)}finally{drawing=false}
+  }
+  tabs.onclick=e=>{const b=e.target.closest('[data-t]');if(!b)return;selected=b.dataset.t;refresh()};
+  
+  async function blob(){return new Promise((resolve,reject)=>canvas.toBlob(b=>b?resolve(b):reject(Error('Card export failed')),'image/png',.95))}
+  async function share(){
+    const btn=document.getElementById('shareBtn');
+    btn.disabled=true;btn.textContent='Creating clean card…';
+    try{
+      await draw();
+      const b=await blob();
+      const file=new File([b],'WishCraft-CleanCard-'+safe(name)+'.png',{type:'image/png'});
+      const message=`💌 ${name}, tumhare liye ek chhota sa surprise hai ✨\n\n${u}\n\n— Wish Craft`;
+      if(navigator.share){
+        const data={title:`A surprise for ${name}`,text:message,url:u};
+        if(navigator.canShare?.({files:[file]}))data.files=[file];
+        await navigator.share(data);
+      }else{
+        downloadBlob(b,'WishCraft-CleanCard-'+safe(name)+'.png');
+        await navigator.clipboard?.writeText(message);
+        alert('Clean QR card saved. The surprise link was also prepared for sharing.');
+      }
+    }catch(e){
+      if(e?.name!=='AbortError'){console.error(e);alert('Share could not be completed. Please try again.')}
+    }finally{
+      btn.disabled=false;btn.textContent='🎁 Send QR Link';
+    }
+  }
+  function downloadBlob(b,file){
+    const a=document.createElement('a');
+    a.href=URL.createObjectURL(b);
+    a.download=file;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(()=>URL.revokeObjectURL(a.href),1000);
+  }
+  document.getElementById('shareBtn').onclick=share;
+  document.getElementById('downloadBtn').onclick=async()=>{
+    try{await draw();downloadBlob(await blob(),'WishCraft-CleanCard-'+safe(name)+'.png')}
+    catch(e){alert('Could not save the card.')}
+  };
+  (async()=>{
+    try{
+      const r=fetch('/api/ui-config',{cache:'no-store'});
+      const d=await (await r).json();
+      if(!selected)selected=d?.qr?.defaultTemplate||'aurora';
+    }catch(_){if(!selected)selected='aurora'}
+    await refresh();
+  })();
+})();
+</script>
+<script defer="" src="/ad-config.js"></script><script defer="" src="/ads.js"></script>
+<div data-wc-shell-footer=""></div>
+<script defer="" src="/assets/js/shell.js"></script>
+<script defer="" src="/assets/js/a11y.js"></script>
+
+</body>
+</html>

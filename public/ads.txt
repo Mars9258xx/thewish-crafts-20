@@ -1,0 +1,4 @@
+# Wish Craft AdSense authorization file.
+# After Google AdSense approves your site, replace YOUR_PUBLISHER_ID with your real publisher ID.
+# Example:
+# google.com, pub-XXXXXXXXXXXXXXXX, DIRECT, f08c47fec0942fa0

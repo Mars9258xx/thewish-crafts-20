@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/><meta content="width=device-width,initial-scale=1,viewport-fit=cover" name="viewport"/>
+<title>My Wishes — Wish Craft</title>
+<meta content="View and manage wishes created on this device." name="description"/>
+<meta content="noindex, nofollow, noarchive" name="robots"/>
+<link href="https://thewishcrafts.vercel.app/my-wishes.html" rel="canonical"/>
+<meta content="website" property="og:type"/>
+<meta content="Wish Craft" property="og:site_name"/>
+<meta content="My Wishes — Wish Craft" property="og:title"/>
+<meta content="View and manage wishes created on this device." property="og:description"/>
+<meta content="https://thewishcrafts.vercel.app/my-wishes.html" property="og:url"/>
+<meta content="https://thewishcrafts.vercel.app/og-image.jpg" property="og:image"/>
+<meta content="1200" property="og:image:width"/>
+<meta content="630" property="og:image:height"/>
+<meta content="Wish Craft — beautiful digital wishes" property="og:image:alt"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="My Wishes — Wish Craft" name="twitter:title"/>
+<meta content="View and manage wishes created on this device." name="twitter:description"/>
+<meta content="https://thewishcrafts.vercel.app/og-image.jpg" name="twitter:image"/>
+<meta content="Wish Craft — beautiful digital wishes" name="twitter:image:alt"/>
+<meta content="#E85B83" name="theme-color"/><link href="/assets/brand/wishcraft-mark.svg" rel="icon" type="image/svg+xml"/><link href="/site.webmanifest" rel="manifest"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link href="/assets/css/site.css" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&amp;family=Playfair+Display:wght@600;700&amp;display=swap" rel="stylesheet"/>
+
+
+
+</head><body class="wc-content-page"><div data-wc-shell-header=""></div>
+<main class="wc-content-wrap" id="main-content"><header class="wc-content-hero"><span class="wc-eyebrow">Your created experiences</span><h1>Your saved wishes.</h1><p>Saved on this device — open a wish anytime while its share link is active.</p></header><section aria-busy="true" aria-live="polite" id="list"><div class="wc-content-card wc-loading"><div aria-hidden="true" class="wc-spinner"></div><p>Loading your saved wishes…</p></div></section></main>
+<div data-wc-shell-footer=""></div><script defer="" src="/assets/js/shell.js"></script><script>
+const list=document.getElementById('list');
+const clean=x=>String(x||'').replace(/[<>]/g,'');
+const ids=JSON.parse(localStorage.getItem('wishCraftIds')||'[]');
+function empty(){list.innerHTML='<div class="wc-content-card wc-empty"><div class="wc-state-symbol" aria-hidden="true">✦</div><h2>No saved wishes yet</h2><p>Your next thoughtful moment can start with a name, a message, and a little creativity.</p><a class="wc-state-btn wc-state-btn--primary" href="/birthday.html">Create your first wish</a></div>';list.removeAttribute('aria-busy')}
+if(!ids.length) empty();
+else fetch('/api/wishes?ids='+encodeURIComponent(ids.join(',')),{cache:'no-store'}).then(async r=>{const d=await r.json();if(!r.ok)throw Error(d.error||'Could not load saved wishes');return d}).then(d=>{if(!d.wishes?.length){empty();return}list.innerHTML='<div class="wc-content-grid">'+d.wishes.map(x=>{const name=clean(x.name)||'Someone Special';const rel=clean(x.relation);const date=x.createdAt?new Date(x.createdAt).toLocaleDateString(undefined,{day:'numeric',month:'short',year:'numeric'}):'';return '<article class="wc-content-card wc-content-section"><h2>'+name+'</h2><p>'+[rel,date].filter(Boolean).join(' · ')+'</p><a class="wc-state-btn wc-state-btn--primary" href="/w/'+encodeURIComponent(x.id)+'" target="_blank" rel="noopener">Open experience →</a></article>'}).join('')+'</div>';list.removeAttribute('aria-busy')}).catch(()=>{list.innerHTML='<div class="wc-content-card wc-error"><div class="wc-state-symbol" aria-hidden="true">!</div><h2>Could not load your wishes</h2><p>Please check your connection and try again. Your saved links on this device have not been changed.</p><button class="wc-state-btn wc-state-btn--secondary" type="button" onclick="location.reload()">Try again</button></div>';list.removeAttribute('aria-busy')});
+</script><script defer="" src="/assets/js/a11y.js"></script>
+
+</body></html>

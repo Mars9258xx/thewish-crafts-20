@@ -1,0 +1,19 @@
+{
+  "name": "wish-craft-v19",
+  "version": "22.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node server.js",
+    "bot": "node telegram-bot.js",
+    "audit:templates": "node scripts/audit-templates.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.57.4",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "multer": "^2.0.2"
+  }
+}

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/><meta content="width=device-width,initial-scale=1,viewport-fit=cover" name="viewport"/>
+<meta content="noindex, nofollow, noarchive" name="robots"/>
+<title>Birthday · Bestfriend — Wish Craft</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link href="/assets/css/site.css" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&amp;family=DM+Sans:wght@400;500;600;700;800&amp;family=Playfair+Display:wght@600;700&amp;display=swap" rel="stylesheet"/>
+</head>
+<body><div data-wc-shell-header=""></div><main id="main-content"><a class="wc-recipient-brand" href="/" aria-label="Wish Craft home"><img src="/assets/brand/wishcraft-logo.svg" alt="Wish Craft"></a>
+<div class="wc6-app">
+<div aria-label="Wish progress" aria-valuemax="6" aria-valuemin="1" aria-valuenow="1" class="wc6-progress" role="progressbar"><i id="wc6-progress-bar"></i></div>
+<div class="wc6-orb one"></div><div class="wc6-orb two"></div>
+<section class="wc6-page" data-page="0" id="wc6-p0">
+<div class="wc6-inner"><div class="wc6-cover">
+<div class="wc6-seal">🎂</div>
+<div class="wc6-kicker">Wish Craft · Bestfriend</div>
+<h1>A little surprise, made just for you.</h1>
+<p>This isn't just a wish. It's a tiny journey made especially for <span class="wc6-name">{{RECIPIENT_NAME}}</span>.</p>
+<button class="wc6-open" onclick="wc6Go(1)">Open Your Surprise ✨</button>
+<div class="wc6-badge">Made with a little magic · Bestfriend</div>
+</div></div></section>
+<section class="wc6-page" data-page="1" id="wc6-p1">
+<div class="wc6-inner"><div class="wc6-card">
+<div class="wc6-page-no">01 · The first feeling</div>
+<h2>There was something I wanted to say.</h2>
+<p>{{RECIPIENT_NAME}}, this little corner of the internet was made to make you smile. Some people deserve more than a message — they deserve a whole little experience.</p>
+<div class="wc6-reveal"><div class="small">A tiny reminder</div><strong>You are worth celebrating.</strong><div>Keep reading… there is more waiting for you.</div></div>
+</div></div></section>
+<section class="wc6-page" data-page="2" id="wc6-p2">
+<div class="wc6-inner"><div class="wc6-card">
+<div class="wc6-page-no">02 · The little things</div>
+<h2>The little things I remember.</h2>
+<p>Big moments are beautiful, but the little ones are usually the memories we keep closest.</p>
+<div class="wc6-memory-grid">
+<div class="wc6-memory"><b>01 · The feeling</b><span>The smile, laugh, look or quiet moment that somehow stayed.</span></div>
+<div class="wc6-memory"><b>02 · The memory</b><span>Every small detail that makes {{RECIPIENT_NAME}} impossible to forget.</span></div>
+<div class="wc6-memory"><b>03 · The reason</b><span>Because ordinary days become special when the right person is part of them.</span></div>
+<div class="wc6-memory"><b>04 · Today</b><span>One more little reason to celebrate you.</span></div>
+</div>
+</div></div></section>
+<section class="wc6-page" data-page="3" id="wc6-p3">
+<div class="wc6-inner"><div class="wc6-card">
+<div class="wc6-page-no">03 · From the heart</div>
+<h2>A few words, just for you.</h2>
+<div class="wc6-letter">{{PERSONAL_DETAILS}}</div>
+<p style="margin-top:16px">No perfect words needed. Just something honest.</p>
+</div></div></section>
+<section class="wc6-page" data-page="4" id="wc6-p4">
+<div class="wc6-inner"><div class="wc6-card">
+<div class="wc6-page-no">04 · One more little surprise</div>
+<h2>A memory to keep close.</h2>
+<p>Your photo, your name, and this little moment — together in one place.</p>
+<div class="wc6-photo">{{PHOTO_BLOCK}}</div>
+<div class="wc6-badge">Made especially for {{RECIPIENT_NAME}}</div>
+</div></div></section>
+<section class="wc6-page" data-page="5" id="wc6-p5">
+<div class="wc6-inner"><div class="wc6-final">
+<div class="big">🎂</div>
+<div class="wc6-kicker">05 · Keep this forever</div>
+<h2>For you, {{RECIPIENT_NAME}} — always.</h2>
+<p>Happy moments, warm memories and a little more magic ahead.<br/><br/>Whenever you come back to this little surprise, I hope it brings the same feeling it was made with.</p>
+<div class="wc6-photo">{{PHOTO_BLOCK}}</div>
+<div class="wc6-sign">With love, {{SENDER_NAME}} ✨</div>
+<div class="wc6-badge">Wish Craft · Made with ♥</div>
+</div></div></section>
+<div aria-label="Surprise pages" class="wc6-nav" role="navigation">
+<button aria-current="page" aria-label="Page 1" class="active" onclick="wc6Go(0)"></button><button aria-current="false" aria-label="Page 2" onclick="wc6Go(1)"></button><button aria-current="false" aria-label="Page 3" onclick="wc6Go(2)"></button><button aria-current="false" aria-label="Page 4" onclick="wc6Go(3)"></button><button aria-current="false" aria-label="Page 5" onclick="wc6Go(4)"></button><button aria-current="false" aria-label="Page 6" onclick="wc6Go(5)"></button>
+</div></div>
+</main><div data-wc-shell-footer=""></div><script>
+(function(){
+window.wc6Go=function(n){
+n=Math.max(0,Math.min(5,Number(n)||0));var el=document.getElementById('wc6-p'+n);
+if(el){var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;el.scrollIntoView({behavior:reduce?'auto':'smooth',block:'start'});}
+document.querySelectorAll('.wc6-nav button').forEach(function(b,i){var active=i===n;b.classList.toggle('active',active);b.setAttribute('aria-current',active?'page':'false')});
+var bar=document.getElementById('wc6-progress-bar');if(bar){bar.style.width=((n+1)/6*100)+'%';var progress=bar.parentElement;if(progress)progress.setAttribute('aria-valuenow',String(n+1));}
+};
+var pages=[].slice.call(document.querySelectorAll('.wc6-page'));
+var io=new IntersectionObserver(function(entries){entries.forEach(function(e){if(e.isIntersecting){var n=Number(e.target.getAttribute('data-page'));document.querySelectorAll('.wc6-nav button').forEach(function(b,i){var active=i===n;b.classList.toggle('active',active);b.setAttribute('aria-current',active?'page':'false')});var bar=document.getElementById('wc6-progress-bar');if(bar){bar.style.width=((n+1)/6*100)+'%';var progress=bar.parentElement;if(progress)progress.setAttribute('aria-valuenow',String(n+1));}}});},{threshold:.55});
+pages.forEach(function(p){io.observe(p)});
+})();
+</script><script defer="" src="/assets/js/shell.js"></script><script defer="" src="/assets/js/a11y.js"></script>
+</body></html>

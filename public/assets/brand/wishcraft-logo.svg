@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 128">
+ <g transform="translate(0 4)">
+  <rect width="120" height="120" rx="32" fill="#E85B83"/>
+  <path d="M21 45.5 60 75a9 9 0 0 0 11 0l39-29.5A9 9 0 0 0 101 36H19a9 9 0 0 0-9 9.5V88a9 9 0 0 0 9 9h82a9 9 0 0 0 9-9V45.5Z" fill="#FFF9F6"/>
+  <path d="M60 53c-6.8-10.8-24-4.3-20.2 8.3C43 70.8 60 80 60 80s17-9.2 20.2-18.7C84 48.7 66.8 42.2 60 53Z" fill="#E85B83"/>
+ </g>
+ <text x="145" y="75" fill="#24151F" font-family="Georgia,serif" font-size="48" font-weight="700" letter-spacing="-2">Wish Craft</text>
+ <text x="148" y="101" fill="#9C7180" font-family="Arial,sans-serif" font-size="10" font-weight="700" letter-spacing="3">MAKE IT YOURS</text>
+</svg>
